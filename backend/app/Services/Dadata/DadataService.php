@@ -21,9 +21,9 @@ class DadataService
         $response = Http::withHeaders([
             'Authorization' => 'Token ' . $this->token->api_key
         ])
-            ->get($this->baseUrl . '/suggest/address', [
-                'query' => $query
-            ]);
+        ->get($this->baseUrl . '/suggest/address', [
+            'query' => $query
+        ]);
 
         $usage = new \App\Models\ApiTokenUsage([
             'token_id' => $this->token->id,
