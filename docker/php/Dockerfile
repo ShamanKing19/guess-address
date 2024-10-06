@@ -32,6 +32,4 @@ RUN echo 'shaman ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER shaman
 
-RUN mkdir guess-address
-
 CMD ["php-fpm"]
