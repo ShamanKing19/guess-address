@@ -14,6 +14,7 @@ class DadataController extends Controller
 
         $token = (new \App\Services\Dadata\TokenService)->getAvailableToken();
         if ($token === null) {
+            // TODO: Выпускать новый токен
             return response(['message' => 'Нет доступных токенов'], 429);
         }
 
