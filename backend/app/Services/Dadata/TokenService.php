@@ -1,19 +1,28 @@
 <?php
 
-namespace app\Services\Dadata;
+namespace App\Services\Dadata;
 
 use App\Models\ApiToken;
+use Illuminate\Support\Carbon;
 
 class TokenService
 {
     /**
      * Получение токена для запроса в "Dadata"
-     * TODO: Высчитывать доступный токен, по которому не был достигнут лимит (лимит указывать в .env)
      *
-     * @return ApiToken
+     * @return ApiToken|null
      */
-    public static function getAvailableToken(): ApiToken
+    public function getAvailableToken(): ?ApiToken
     {
-        return ApiToken::query()->first();
+        return ApiToken::with([
+            'usages' => fn ($query) => $query->whereBetween('created_at', [Carbon::today()->toDateString(), Carbon::tomorrow()->toDateString()])
+        ])
+        ->has('usages', '<', $this->getDailyLimit())
+        ->first();
+    }
+
+    private function getDailyLimit(): int
+    {
+        return config('limits.dadata_daily_limit');
     }
 }

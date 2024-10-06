@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('query');
             $table->integer('response_status');
             $table->timestamp('created_at');
-            $table->unique(['token_id', 'created_at']);
         });
     }
 

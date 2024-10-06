@@ -26,4 +26,9 @@ class ApiTokenUsage extends Model
             $model->created_at = $model->freshTimestamp();
         });
     }
+
+    public function token()
+    {
+        return $this->belongsTo(ApiToken::class, 'token_id', 'id');
+    }
 }

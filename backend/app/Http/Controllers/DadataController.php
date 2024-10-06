@@ -12,7 +12,11 @@ class DadataController extends Controller
         $fields = $request->validated();
         $query = $fields['query'];
 
-        $token = \App\Services\Dadata\TokenService::getAvailableToken();
+        $token = (new \App\Services\Dadata\TokenService)->getAvailableToken();
+        if ($token === null) {
+            return response(['message' => 'Нет доступных токенов'], 429);
+        }
+
         return (new DadataService($token))->guessAddress($query);
     }
 }
